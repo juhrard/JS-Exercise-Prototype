@@ -39,8 +39,26 @@ Airplane.prototype.land = function () {
         + It should return a string with `name` and `age`. Example: "Mary, 50"
 */
 
-function Person() {
+function Person(name, age) {
+  this.stomach = [];
+  this.name = name;
+  this.age = age;
+}
 
+Person.prototype.eat = function(someFood) {
+  if(this.stomach.length < 10) {
+    return this.stomach.push(someFood);
+  } else {
+    return this.stomach;
+  }
+} 
+
+Person.prototype.poop = function() {
+  return this.stomach = [];
+}
+
+Person.prototype.toString = function() {
+  return `${this.name}, ${this.age}`
 }
 
 /*
@@ -57,8 +75,29 @@ function Person() {
         + The `drive` method should return a string "I ran out of fuel at x miles!" x being `odometer`.
 */
 
-function Car() {
+function Car(model, milesPerGallon) {
+  this.tank = 0;
+  this.odometer = 0;
+  this.model = model;
+  this.milesPerGallon = milesPerGallon;
+}
 
+Car.prototype.fill = function(gallons) {  
+  this.tank = this.tank + gallons;
+  return this.tank;
+}
+
+Car.prototype.drive = function(distance) {
+  let gasUsed = distance / this.milesPerGallon;
+  if (this.tank > gasUsed) {
+    this.odometer = this.odometer + distance;
+    this.tank = this.tank - gasUsed;
+    return this.odometer, this.tank;
+  } else if (this.tank < gasUsed) {
+    this.odometer = this.milesPerGallon * this.tank;
+    this.tank = 0;
+    return this.tank, this.odometer, `I ran out of fuel at ${this.odometer} miles!`;
+  }
 }
 
 /*
@@ -68,18 +107,27 @@ function Car() {
     - Besides the methods on Person.prototype, babies have the ability to `.play()`:
         + Should return a string "Playing with x", x being the favorite toy.
 */
-function Baby() {
+function Baby(name, age, favoriteToy) {
+  Person.call(name, age);
+  this.name = name;
+  this.age = age;
+  this.favoriteToy = favoriteToy;
+}
 
+Baby.prototype = Object.create(Person.prototype);
+
+Baby.prototype.play = function() {
+  return `Playing with ${this.favoriteToy}`;
 }
 
 /* 
   TASK 4
 
   In your own words explain the four principles for the "this" keyword below:
-  1. 
-  2. 
-  3. 
-  4. 
+  1. Global binding binds it to the window
+  2. explicit binding call or bind
+  3. implicit binding is when you call it in a function or method or otherwise
+  4. new binding when you use the constructor function to create a new object
 */
 
 
